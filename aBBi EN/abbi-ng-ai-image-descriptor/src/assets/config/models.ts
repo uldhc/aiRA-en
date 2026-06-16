@@ -1,0 +1,151 @@
+import { Model } from '../../app/types/model.types'
+import { TaskTypeId } from './prompts';
+
+export type ModelProvider = 'OpenAI' | 'Google';
+export type ModelId = 'gpt-4.1' | 'gpt-5.4' | 'gemini-3.1-pro-preview' | 'gemini-3.5-flash' | 'gemini-2.5-pro' | 'gemini-2.5-flash';
+
+// provider = name of model creator
+// name = display name of the model
+// id = the API id or name of the model
+// inputPrice = Either a flat price ($/1M tokens in prompt) or a tiered
+//              price depending on token count.
+// outputPrice = Either a flat price ($/1M tokens in model output) or a
+//               tiered price depending on token count.
+// rpm = max requests per minute the model accepts at current usage tier
+// supportedTaskTypes = array of task types the model can be used for
+// parameters = an object with model parameters:
+//     maxImageShortsidePx = (optional) max supported image short side
+//                           length in pixels, set to null for no limit,
+//                           defaults to 768 if undefined
+//     imageDetail = (optional, OpenAI only)
+//     mediaResolution = (optional, Google Gemini only)
+//     reasoningEffort = (optional, required for OpenAI reasoning models)
+//                       reasoning effort constraint for reasoning
+//                       models, supported values are `none`, `minimal`,
+//                       `low`, `medium`, `high` and `xhigh` depending on model
+//     reasoningEfforts = (optional) selectable list of supported reasoning
+//                        effort values
+//     reasoningSupportsTemperature = (optional) when false, temperature is
+//                                    only supported with provider-specific
+//                                    "no reasoning/thinking" settings;
+//                                    defaults to true if undefined
+//     thinkingBudget = (optional, Google Gemini only, required for 2.5)
+//     thinkingLevel = (optional, Google Gemini only, required for 3)
+//     thinkingLevels = (optional) selectable list of supported thinking levels
+
+// OpenAI Responses API reference: https://platform.openai.com/docs/api-reference/responses/create
+// Google GenAI SDK for TypeScript and JavaScript: https://googleapis.github.io/js-genai/release_docs/index.html
+
+export const MODELS: Model[] = [
+  {
+    provider: 'OpenAI',
+    name: 'GPT-4.1',
+    id: 'gpt-4.1',
+    description: 'A high-quality model for generating clear, accurate, and well-structured alt text, especially suited for detailed image descriptions.',
+    inputPrice: 2.0,
+    outputPrice: 8.0,
+    rpm: 5000,
+    supportedTaskTypes: ['altText', 'transcription'],
+    url: 'https://developers.openai.com/api/docs/models/gpt-4.1',
+    parameters: {
+      imageDetail: 'high'
+    }
+  },
+  {
+    provider: 'OpenAI',
+    name: 'GPT-5.4',
+    id: 'gpt-5.4',
+    description: 'A powerful model optimized for high-quality outputs, well suited for complex images.',
+    inputPrice: { tiers: [{ upToTokens: 272000, per1M: 2.50 }, { upToTokens: null, per1M: 5.00 }] },
+    outputPrice: { tiers: [{ upToTokens: 272000, per1M: 15.00 }, { upToTokens: null, per1M: 22.50 }] },
+    rpm: 5000,
+    supportedTaskTypes: ['altText', 'transcription', 'transcriptionBatchTei'],
+    url: 'https://developers.openai.com/api/docs/models/gpt-5.4',
+    parameters: {
+      imageDetail: 'original',
+      maxImageShortsidePx: null,
+      reasoningEffort: 'none',
+      reasoningEfforts: ['none', 'low', 'medium', 'high', 'xhigh'],
+      reasoningSupportsTemperature: false
+    },
+    supportsFilesApi: true
+  },
+  {
+    provider: 'Google',
+    name: 'Gemini 3.5 Flash',
+    id: 'gemini-3.5-flash',
+    description: 'A fast and cost-efficient alternative to Gemini 3.1 Pro that delivers near-pro transcription quality, including handwritten text, with much higher throughput.',
+    inputPrice: 1.5,
+    outputPrice: 9.0,
+    rpm: 1000,
+    supportedTaskTypes: ['altText', 'transcription', 'transcriptionBatchTei'],
+    url: 'https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash',
+    parameters: {
+      thinkingLevel: 'low',
+      thinkingLevels: ['minimal', 'low', 'medium', 'high'],
+      maxImageShortsidePx: null,
+      mediaResolution: 'high'
+    },
+    supportsFilesApi: true
+  },
+  {
+    provider: 'Google',
+    name: 'Gemini 3.1 Pro Preview',
+    id: 'gemini-3.1-pro-preview',
+    description: 'The most accurate model for transcription tasks, excelling at handwritten text, and the best choice when transcription quality is critical.',
+    inputPrice: { tiers: [{ upToTokens: 200000, per1M: 2.00 }, { upToTokens: null, per1M: 4.00 }] },
+    outputPrice: { tiers: [{ upToTokens: 200000, per1M: 12.00 }, { upToTokens: null, per1M: 18.00 }] },
+    rpm: 25,
+    supportedTaskTypes: ['altText', 'transcription', 'transcriptionBatchTei'],
+    url: 'https://ai.google.dev/gemini-api/docs/models/gemini-3.1-pro-preview',
+    parameters: {
+      thinkingLevel: 'low',
+      thinkingLevels: ['low', 'medium', 'high'],
+      maxImageShortsidePx: null,
+      mediaResolution: 'high'
+    },
+    supportsFilesApi: true
+  },
+  {
+    provider: 'Google',
+    name: 'Gemini 2.5 Pro',
+    id: 'gemini-2.5-pro',
+    description: 'A high-quality general-purpose model that performs well for both alt text and transcription, offering strong accuracy but falling short of Gemini 3 Pro on handwritten text.',
+    inputPrice: { tiers: [{ upToTokens: 200000, per1M: 1.25 }, { upToTokens: null, per1M: 2.50 }] },
+    outputPrice: { tiers: [{ upToTokens: 200000, per1M: 10.00 }, { upToTokens: null, per1M: 15.00 }] },
+    rpm: 150,
+    supportedTaskTypes: ['altText', 'transcription', 'transcriptionBatchTei'],
+    url: 'https://ai.google.dev/gemini-api/docs/models#gemini-2.5-pro',
+    parameters: {
+      thinkingBudget: 512,
+      maxImageShortsidePx: null,
+      mediaResolution: 'high'
+    },
+    supportsFilesApi: true
+  },
+  {
+    provider: 'Google',
+    name: 'Gemini 2.5 Flash',
+    id: 'gemini-2.5-flash',
+    description: 'A fast and economical model for large-scale alt text and transcription tasks, providing good overall accuracy with excellent throughput.',
+    inputPrice: 0.30,
+    outputPrice: 2.50,
+    rpm: 1000,
+    supportedTaskTypes: ['altText', 'transcription', 'transcriptionBatchTei'],
+    url: 'https://ai.google.dev/gemini-api/docs/models#gemini-2.5-flash',
+    parameters: {
+      thinkingBudget: 512,
+      maxImageShortsidePx: null,
+      mediaResolution: 'high'
+    },
+    supportsFilesApi: true
+  }
+];
+
+export function getModelsForTaskType(taskType: TaskTypeId): Model[] {
+  return MODELS.filter(m => m.supportedTaskTypes.includes(taskType));
+}
+
+export function isModelAllowedForTaskType(modelId: ModelId, taskType: TaskTypeId): boolean {
+  return MODELS.some(m => m.id === modelId && m.supportedTaskTypes.includes(taskType));
+}

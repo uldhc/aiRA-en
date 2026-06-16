@@ -1,0 +1,105 @@
+@let taskNoun = settings.taskNouns();
+
+<div class="content-wrapper">
+  <app-header></app-header>
+
+  <div class="main-wrapper">
+    <section class="abbi-intro" aria-label="About aBBi">
+      <div class="intro-grid">
+        <div class="intro-card">
+          <h2>What you can do</h2>
+          <ul>
+            <li>Generate alt text</li>
+            <li>Extract text from images</li>
+            <li>Encode image text in TEI XML</li>
+          </ul>
+        </div>
+
+        <div class="intro-card">
+          <h2>How it works</h2>
+          <ol>
+            <li>Choose task and model</li>
+            <li>Add API key</li>
+            <li>Add images</li>
+            <li>Generate and review results</li>
+          </ol>
+        </div>
+
+        <div class="intro-card intro-card--tips">
+          <h2>Model tips</h2>
+          <ul>
+            <li><strong>Alt text:</strong> GPT-4.1 or Gemini 2.5</li>
+            <li><strong>Printed text:</strong> Gemini 3.5 Flash</li>
+            <li><strong>Handwriting:</strong> Gemini 3.2 Pro</li>
+            <li><strong>TEI-encoding:</strong> Gemini 3.1 Pro</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <mat-stepper [orientation]="(stepperOrientation | async)!" [linear]="true" #stepper>
+      <!-- Step 1: Configure settings -->
+      <mat-step label="Configure settings">
+        <h2>Configure settings</h2>
+        <settings-form></settings-form>
+        <div class="stepper-nav">
+          <button mat-button color="primary" matStepperNext>Next</button>
+        </div>
+      </mat-step>
+
+      <!-- Step 2: Add API key -->
+      <mat-step [stepControl]="apiKeyFormGroup" label="Add API key">
+        <h2>Add your {{ settings.selectedModel().provider }} API key</h2>
+        <api-key-form
+          (apiKeyValidated)="onApiKeyValidated($event)"
+          (formGroupOutput)="setApiKeyFormGroup($event)"
+        ></api-key-form>
+        <div class="stepper-nav">
+          <button mat-button color="primary" matStepperPrevious>Back</button>
+          <button mat-button color="primary" matStepperNext>Next</button>
+        </div>
+      </mat-step>
+
+      <!-- Step 3: Add images -->
+      <mat-step label="Add images" [completed]="((imageListService.imageList$ | async)?.length || false) && !addingImages()">
+        <h2>Add images</h2>
+        <!-- Defer loading the add-images component until the browser is idle -->
+        @defer (on idle) {
+          <add-images (addingImages)="setAddingImages($event)"></add-images>
+        } @loading (minimum 500ms) {
+          <p>Loading component ...</p>
+        } @error {
+          <p>Error loading component for adding images. Please try to reload the web page.</p>
+        }
+        <div class="stepper-nav">
+          <button mat-button color="primary" matStepperPrevious>Back</button>
+          <button mat-button color="primary" matStepperNext>Next</button>
+        </div>
+      </mat-step>
+
+      <!-- Step 4: Generate image descriptions -->
+      <mat-step [label]="`Generate ${taskNoun.plural}`">
+        <h2 id="generate-step-title">Generate {{ taskNoun.plural }}</h2>
+        <!-- Defer loading the generate-descriptions component until the API key in step 2 has validated -->
+        @defer (when isApiKeyFormValid) {
+          <generate-descriptions></generate-descriptions>
+        } @loading (minimum 500ms) {
+          <p>Loading component ...</p>
+        } @error {
+          <p>Error loading component for generating {{ taskNoun.plural }}. Please try to reload the web page.</p>
+        }
+        <div class="stepper-nav">
+          <button mat-button color="primary" matStepperPrevious>Back</button>
+        </div>
+      </mat-step>
+    </mat-stepper>
+  </div>
+</div>
+<div class="footer-wrapper">
+  <footer>
+    <p>
+      Your data is safe: it’s not used to train any AI-models.<br>
+      App version: <a href="https://github.com/slsfi/abbi-ng-ai-image-descriptor/blob/main/CHANGELOG.md">{{ appVersion }}</a>.
+    </p>
+  </footer>
+</div>

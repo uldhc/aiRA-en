@@ -1,0 +1,289 @@
+@let model = settings.selectedModel();
+@let selectedTaskConfigValue = settings.selectedTaskConfig();
+@let selectedTaskTypeValue = settings.selectedTaskType();
+@let selectedTaskVariants = settings.selectedTaskConfig().variants;
+@let reasoningEfforts = settings.availableReasoningEfforts();
+@let thinkingLevels = settings.availableThinkingLevels();
+@let tempSupported = settings.isTemperatureSupported();
+
+<div class="settings-column-wrapper">
+  <div class="parameters-wrapper">
+    <h3>
+      <span>a) Task settings</span>
+      <button matIconButton
+            aria-label="Select what you want the AI to generate."
+            matTooltip="Select what you want the AI to generate."
+            matTooltipPosition="above"
+      >
+        <mat-icon>info</mat-icon>
+      </button>
+    </h3>
+
+    <div class="form-field-wrapper">
+      <mat-form-field appearance="outline" [subscriptSizing]="'dynamic'">
+        <mat-label>Task type</mat-label>
+        <mat-select
+              [value]="selectedTaskTypeValue"
+              (valueChange)="setTaskType($event)"
+              name="taskType"
+        >
+          @for (task of settings.taskConfigs(); track task.taskType) {
+            <mat-option [value]="task.taskType">{{ task.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    @if (selectedTaskConfigValue.taskDescription) {
+      <p class="model-description">{{ selectedTaskConfigValue.taskDescription }}</p>
+    }
+
+    @if (selectedTaskTypeValue === 'altText') {
+      <div class="form-field-wrapper include-filename">
+        <mat-slide-toggle
+              [checked]="settings.includeFilename()"
+              (change)="setIncludeFilename($event)"
+              matTooltip="Enable this if your image filenames contain helpful context (e.g., names, dates). The filename will be included in the prompt to improve alt text quality."
+        >Include filenames as contextual input</mat-slide-toggle>
+      </div>
+    }
+  </div>
+
+  <div class="parameters-wrapper">
+    <h3>
+      <span>b) Output settings</span>
+      <button matIconButton
+            aria-label="Adjust how the results should be formatted."
+            matTooltip="Adjust how the results should be formatted."
+            matTooltipPosition="above"
+      >
+        <mat-icon>info</mat-icon>
+      </button>
+    </h3>
+
+    @if (selectedTaskTypeValue === 'altText') {
+      <div class="form-field-wrapper">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ settings.taskNouns().singular | upperFirstLetter }} language</mat-label>
+          <mat-select
+                [value]="settings.selectedVariantId()"
+                (valueChange)="setTaskVariant($event)"
+                name="language"
+          >
+            @for (variant of selectedTaskVariants; track variant.id) {
+              <mat-option [value]="variant.id">{{ variant.label }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+    
+      <div class="form-field-wrapper">
+        <div class="slider-wrapper">
+          <div class="slider-label-wrapper">
+            <label id="len-slider-label" class="slider-label">Approximate length:</label>
+            <label class="slider-value-label">{{descLengthSlider.value}} characters</label>
+          </div>
+          <mat-slider
+              [min]="descLengthMin"
+              [max]="descLengthMax"
+              [step]="25"
+              [discrete]="true"
+              [showTickMarks]="true"
+              matTooltip="Desired approximate length of the generated alt texts."
+          >
+            <input matSliderThumb
+                  [value]="settings.selectedDescLength()"
+                  (valueChange)="setDescLength($event)"
+                  #descLengthSlider
+            >
+          </mat-slider>
+        </div>
+      </div>
+    }
+
+    @if (selectedTaskTypeValue === 'transcription') {
+      <div class="form-field-wrapper">
+        <mat-slide-toggle
+              [checked]="transcribeHeaders()"
+              (change)="setTranscribeHeaders($event)"
+              matTooltip="Enable this to include headers, footers, and page numbers in the transcription output."
+        >Transcribe headers, footers &amp; page numbers</mat-slide-toggle>
+      </div>
+
+      <div class="form-field-wrapper">
+        <mat-slide-toggle
+              [checked]="teiEncode()"
+              (change)="setTeiEncode($event)"
+              matTooltip="Enable this to TEI XML encode the transcribed text of each image separately."
+        >TEI encode each image transcription separately</mat-slide-toggle>
+      </div>
+    }
+
+    @if (selectedTaskTypeValue === 'transcriptionBatchTei') {
+      <div class="form-field-wrapper">
+        <div class="slider-wrapper">
+          <div class="slider-label-wrapper">
+            <label id="batch-slider-label" class="slider-label">Batch size:</label>
+            <label class="slider-value-label">{{batchSizeSlider.value}} images</label>
+          </div>
+          <mat-slider
+              [min]="settings.batchSizeMin()"
+              [max]="settings.batchSizeMax()"
+              [step]="1"
+              [discrete]="true"
+              [showTickMarks]="true"
+              matTooltip="Batch size controls how many images are processed by the model at once. If the number of images exceeds the batch size, the images are divided into batches of this size. Each batch is processed as a single ”unit”."
+          >
+            <input matSliderThumb
+                  [value]="settings.batchSize()"
+                  (valueChange)="setBatchSize($event)"
+                  #batchSizeSlider>
+          </mat-slider>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="parameters-wrapper">
+    <h3>
+      <span>c) Model settings</span>
+      <button matIconButton
+            aria-label="Adjust how the AI processes and interprets your images."
+            matTooltip="Adjust how the AI processes and interprets your images."
+            matTooltipPosition="above"
+      >
+        <mat-icon>info</mat-icon>
+      </button>
+    </h3>
+
+    <div class="form-field-wrapper">
+      <mat-form-field appearance="outline">
+        <mat-label>AI-model</mat-label>
+        <mat-select
+              [value]="model"
+              (valueChange)="setModel($event)"
+              name="model"
+        >
+          @for (model of settings.availableModels(); track model.id) {
+            <mat-option [value]="model">{{model.provider}} {{model.name}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Advanced model settings
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      @if (reasoningEfforts.length > 0) {
+        <div class="form-field-wrapper">
+          <mat-form-field appearance="outline">
+            <mat-label>Reasoning effort</mat-label>
+            <mat-select
+                  [value]="settings.selectedReasoningEffort()"
+                  (valueChange)="setReasoningEffort($event)"
+                  name="reasoningEffort"
+            >
+              @for (reasoningEffort of reasoningEfforts; track reasoningEffort) {
+                <mat-option [value]="reasoningEffort">{{ reasoningEffort | upperFirstLetter }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+      }
+
+      @if (thinkingLevels.length > 0) {
+        <div class="form-field-wrapper">
+          <mat-form-field appearance="outline">
+            <mat-label>Thinking level</mat-label>
+            <mat-select
+                  [value]="settings.selectedThinkingLevel()"
+                  (valueChange)="setThinkingLevel($event)"
+                  name="thinkingLevel"
+            >
+              @for (thinkingLevel of thinkingLevels; track thinkingLevel) {
+                <mat-option [value]="thinkingLevel">{{ thinkingLevel | upperFirstLetter }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+      }
+
+      <div class="form-field-wrapper top-margin">
+        @if (tempSupported) {
+          <div class="slider-wrapper">
+            <div class="slider-label-wrapper">
+              <label id="temp-slider-label" class="slider-label">Temperature:</label>
+              <label class="slider-value-label">{{temperatureSlider.value}}</label>
+            </div>
+            <mat-slider
+                  [max]="temperatureMax"
+                  [min]="temperatureMin"
+                  [step]="0.1"
+                  [discrete]="true"
+                  [showTickMarks]="true"
+                  matTooltip="Temperature controls how predictable versus varied a model’s output is, with lower values making responses more consistent and higher values making them more creative but less deterministic. Transcription tasks can benefit from a temperature of 0.0, however, many models are optimized for a value of 1.0."
+            >
+              <input matSliderThumb
+                    [value]="settings.selectedTemperature()"
+                    (valueChange)="setTemperature($event)"
+                    #temperatureSlider
+              >
+            </mat-slider>
+          </div>
+        } @else {
+          <p class="slider-support-message">This model does not support the temperature setting when {{ model.provider === 'OpenAI' ? 'reasoning' : 'thinking' }} is enabled.</p>
+        }
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Model details
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="model-details-wrapper">
+        <h4>{{ model.name }} ({{ model.provider }})</h4>
+        @if (model.description) {
+          <p>{{ model.description }}</p>
+        }
+        <table>
+          <tbody>
+            <tr>
+              <th scope="row">ID:</th>
+              <td>{{ model.id }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Input price:</th>
+              <td>
+                @for (line of model.inputPrice | pricePerMTokens; track $index) {
+                  <div>{{ line }}</div>
+                }
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Output price:</th>
+              <td>
+                @for (line of model.outputPrice | pricePerMTokens; track $index) {
+                  <div>{{ line }}</div>
+                }
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">RPM:</th>
+              <td>{{ model.rpm }}</td>
+            </tr>
+            <tr>
+              <th scope="row">URL:</th>
+              <td><a [href]="model.url" target="_blank"><mat-icon>open_in_new</mat-icon></a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </mat-expansion-panel>
+  </div>
+</div>
