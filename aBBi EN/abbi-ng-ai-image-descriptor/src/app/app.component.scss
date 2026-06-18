@@ -93,9 +93,20 @@ mat-stepper {
 }
 
 .app-title {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
+  width: 100%;
+}
+.app-title-text-side {
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 0.4rem;
+}
+.app-title-logo-side {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 0.4rem;
 }
 
 .app-title-main {
@@ -106,12 +117,28 @@ mat-stepper {
 }
 
 .app-title-logo {
-  width: 64px;
-  height: 64px;
+  grid-column: 1;
+  justify-self: end;
+  width: 76px;
+  height: 76px;
   object-fit: contain;
+  margin-right: 0.4rem;
 }
 
 .app-title h1,
 .app-title p {
   margin: 0;
+}
+
+.app-title-text {
+  grid-column: 2;
+  text-align: left;
+}
+.app-title-text h1 {
+  margin: 0;
+  line-height: 1;
+}
+.app-title-text p {
+  margin: 0.2rem 0 0;
+  line-height: 1.2;
 }
