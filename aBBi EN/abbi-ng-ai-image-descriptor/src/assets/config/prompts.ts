@@ -53,7 +53,7 @@ console.log(
 */
 
 export type TaskTypeId = 'altText' | 'transcription' | 'transcriptionBatchTei';
-export type LanguageCode = 'en' | 'de' | 'dk' | 'ee' | 'fi' | 'is' | 'lt' | 'lv' | 'no' | 'sv' ;
+export type LanguageCode = 'en' | 'dk' | 'ee' | 'fi' | 'de' | 'is' | 'lt' | 'lv' | 'no' | 'sv' ;
 
 export const TASK_CONFIGS: TaskTypeConfig[] = [
   {
@@ -79,12 +79,6 @@ export const TASK_CONFIGS: TaskTypeConfig[] = [
         prompt: altTextDanishPrompt
       },
       {
-        id: 'de',
-        label: 'German',
-        languageCode: 'de',
-        prompt: altTextGermanPrompt
-      },
-      {
         id: 'ee',
         label: 'Estonian',
         languageCode: 'ee',
@@ -95,6 +89,12 @@ export const TASK_CONFIGS: TaskTypeConfig[] = [
         label: 'Finnish',
         languageCode: 'fi',
         prompt: altTextFinnishPrompt
+      },
+      {
+        id: 'de',
+        label: 'German',
+        languageCode: 'de',
+        prompt: altTextGermanPrompt
       },
       {
         id: 'is',
