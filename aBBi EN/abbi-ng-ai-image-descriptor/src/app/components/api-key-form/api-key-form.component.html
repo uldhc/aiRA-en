@@ -11,7 +11,7 @@
     @if (apiKeyFC?.hasError('required')) {
       <mat-error>You must add an API key</mat-error>
     } @else if (apiKeyFC?.hasError('invalidApiKey')) {
-      <mat-error>Invalid API key</mat-error>
+      <mat-error>Invalid API key. Did you select the correct model in the previous step?</mat-error>
     }
     @if (apiKeyValidationMessage) {
       <mat-hint [class.valid-api-key]="apiKeyFormGroup.valid">
