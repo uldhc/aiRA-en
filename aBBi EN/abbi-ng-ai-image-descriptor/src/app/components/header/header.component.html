@@ -39,92 +39,91 @@
         ×
       </button>
 
-      <h1 id="info-overlay-title">Par aiRA</h1>
+      <h1 id="info-overlay-title">About aiRA/h1>
 
       <p>
-        aiRA rīku ir izveidojis 
-        <a href="https://www.hzf.lu.lv/par-mums/centri/digitalo-humanitaro-zinatnu-centrs/" target="_blank">Latvijas Universitātes Digitālo humanitāro zinātņu centrs </a>
-        projekta <a href="https://www.hzf.lu.lv/petnieciba/projekti/open/" target="_blank">ȬPEN</a> ietvaros (Nr. ZDA-LIP 2025/2). 
-        Projekts veicina zināšanu pieejamību un sabiedrības iesaisti zināšanu radīšanā. Šis rīks ir atvērtā koda projekts un pieejams <a href="https://github.com/ul-dhc/aiRA" target="_blank">GitHub</a>.
+        The aiRA tool was created by the 
+        <a href="https://www.hzf.lu.lv/par-mums/centri/digitalo-humanitaro-zinatnu-centrs/" target="_blank">Centre for Digital Humanities at the University of Latvia </a>
+        as part of the <a href="https://www.hzf.lu.lv/petnieciba/projekti/open/" target="_blank">ȬPEN</a> project (No. ZDA-LIP 2025/2). The project promotes access to knowledge and public participation in the creation of knowledge. This tool is an open-source project and is available on <a href="https://github.com/ul-dhc/aiRA-en" target="_blank">GitHub</a>.
       </p>
       
       <p>
-        Tas veidots, adaptējot Somijas Zviedru literatūras biedrības (Svenska litteratursällskapet i Finland – SLS) izstrādāto rīku <a href="https://github.com/slsfi/abbi-ng-ai-image-descriptor/tree/main" target="_blank">aBBi</a>.
+        It was developed by adapting the <a href="https://github.com/slsfi/abbi-ng-ai-image-descriptor/tree/main" target="_blank">aBBi</a> tool created by the Society of Swedish Literature in Finland (Svenska litteratursällskapet i Finland – SLS). 
       </p>
 
       <p>
-        aiRA palīdz ģenerēt attēlu alternatīvos tekstus (alt text) un transkripcijas, izmantojot mākslīgo intelektu (AI). Tāpat rīks spēj kodēt transkripcijas TEI XML formātā, kas paredzēts arhivēšanas vai pētniecības vajadzībām.
+        aiRA palīdz ģenerēt attēlu alternatīvos tekstus (alt text) un transkripcijas, izmantojot mākslīgo intelektu (AI). Tāpat rīks spēj kodēt transkripcijas TEI XML formātā, kas paredzēts arhivēšanas vai pētniecības vajadzībāmaiRA helps generate alternative text descriptions, or alt text, for images, as well as transcriptions, using artificial intelligence (AI). The tool can also encode transcriptions in TEI XML format, which is intended for archiving or research purposes.
       </p>
 
       <p>
-        Jūs izmantojat savu personīgo OpenAI vai Google (Gemini) API atslēgu, un rīks darbojas pilnībā jūsu pārlūkprogrammā – nav iesaistīts nekāds aizmugursistēmas (backend) serveris. Attēli no jūsu pārlūkprogrammas tiek nosūtīti tieši izvēlētajam AI pakalpojumu sniedzējam, tiek saņemts rezultāts, un tas arī viss.
+        You use your own personal OpenAI or Google Gemini API key, and the tool runs entirely in your browser – no backend server is involved. Images from your browser are sent directly to the selected AI service provider, the result is received, and that is all.
       </p>
 
-      <h2>Tas nozīmē:</h2>
+      <h2>This means:</h2>
       <ul>
-        <li><b>Jūs kontrolējat izmaksas.</b> OpenAI vai Google piestāda rēķinu tieši jums, balstoties uz jūsu patēriņu un viņu standarta API tarifiem.</li>
-        <li><b>Jūs kontrolējat datus.</b> Nekas neiet caur mūsu serveriem. Mēs neredzam ne jūsu attēlus, ne tekstu, ne API atslēgu.</li>
-        <li><b>Jūs izvēlaties pakalpojumu sniedzēju.</b> Izvēlieties to AI pakalpojumu, kuram uzticaties un kuram jums ir pieejama atslēga.</li>
+        <li><b>You control the costs.</b> OpenAI or Google bills you directly based on your usage and their standard API rates.</li>
+        <li><b>You control the data.</b> Nothing goes through our servers. We do not see your images, your text, or your API key.</li>
+        <li><b>You choose the service provider.</b> Choose the AI service you trust and for which you have an available key.</li>
       </ul>
 
-      <h1>Biežāk uzdotie jautājumi</h1>
-      <h2>Ko tieši dara aiRA?</h2>
+      <h1>Frequently Asked Questions</h1>
+      <h2>What exactly does aiRA do?</h2>
       <p>
-        Jūs augšupielādējat vai izvēlaties attēlu, un aiRA nosūta to AI modelim (OpenAI vai Google, atkarībā no jūsu konfigurācijas) kopā ar norādēm: vai nu aprakstīt attēlu (alternatīvajam tekstam), vai transkribēt tajā redzamo tekstu. Ja veicat transkripciju, varat iestatīt, lai rezultāts tiktu izvadīts TEI XML formātā.
+        You upload or select an image, and aiRA sends it to an AI model, either OpenAI or Google depending on your configuration, together with instructions: either to describe the image for alternative text, or to transcribe the text visible in it. If you are performing a transcription, you can set the result to be output in TEI XML format.
       </p>
 
-      <h2>Vai man ir nepieciešams profils, lai lietotu aiRA?</h2>
+      <h2>Do I need an account to use aiRA?</h2>
       <p>
-      Mūsu sistēmā profils nav vajadzīgs, taču jums ir nepieciešama OpenAI vai Google API atslēga, jo aiRA izmanto šo uzņēmumu AI modeļus, lai veiktu faktisko attēlu analīzi.
+      You do not need an account in our system, but you do need an OpenAI or Google API key, because aiRA uses these companies’ AI models to carry out the actual image analysis.
       </p>
 
-      <h2>Kā es varu iegūt API atslēgu?</h2>
-      <h3>OpenAI:</h3>
+      <h2>How can I get an API key?</h2>
+      <h3>For OpenAI:</h3>
       <ol>
-        <li>Dodieties uz platformu <a href="https://platform.openai.com" target="_blank">platform.openai.com</a> un reģistrējieties vai piesakieties</li>
-        <li>Atveriet sava profila iestatījumu sadaļu "API keys".</li>
-        <li>Izveidojiet jaunu slepeno atslēgu (secret key) un nokopējiet to drošā vietā – vēlreiz to apskatīt vairs nevarēsiet.</li>
-        <li>Pievienojiet maksājumu informāciju, jo API izmantošana ir maksas pakalpojums (tas ir nodalīts no ChatGPT Plus abonementa).</li>
-        <li>Iekopējiet atslēgu aiRA iestatījumos.</li>
+        <li>Go to<a href="https://platform.openai.com" target="_blank">platform.openai.com</a> and register or sign in.</li>
+        <li>and register or sign in.</li>
+        <li>Create a new secret key and copy it somewhere safe – you will not be able to view it again.</li>
+        <li>Add payment information, because API usage is a paid service. This is separate from a ChatGPT Plus subscription.</li>
+        <li>Paste the key into the aiRA settings in step 2.</li>
       </ol>
 
-      <h3>Google (Gemini):</h3>
+      <h3>For Google Gemini:</h3>
       
       <ol>
-        <li>Dodieties uz Google AI Studio (<a href="https://aistudio.google.com" target="blank">aistudio.google.com</a>).</li>
-        <li>Piesakieties ar savu Google kontu.</li>
-        <li>Noklikšķiniet uz "Get API key" un izveidojiet to.</li>
-        <li>Iekopējiet atslēgu aiRA iestatījumos.</li>
+        <li>Go to Google AI Studio at <a href="https://aistudio.google.com" target="blank">aistudio.google.com</a>.</li>
+        <li>Sign in with your Google account.</li>
+        <li>Click “Get API key” and create one.</li>
+        <li>Paste the key into the aiRA settings.</li>
       </ol>
       
-      <h2>Vai rīka lietošana ir bezmaksas?</h2>
-      <p>Pati aiRA ir bezmaksas. Taču aprakstu un transkripciju ģenerēšanai tiek izmantota jūsu API atslēga, un AI pakalpojumu sniedzēji par šo apjomu iekasē maksu. Parasti par attēlu tie ir daži centi vai summa, kas ir mazāka par centu, taču, strādājot ar lielu apjomu, izmaksas summējas. Pirms intensīvas lietošanas iepazīstieties ar OpenAI vai Google aktuālajiem cenrāžiem.</p>
-     
-      <h2>Kas notiek ar maniem attēliem un API atslēgu? Vai kaut kas tiek saglabāts?</h2>
-      <p>Nekas netiek ne saglabāts, ne sūtīts mums. aiRA darbojas pilnībā jūsu pārlūkprogrammā:</p>
+      <h2>Is the tool free to use?</h2>
+      <p>aiRA itself is free. However, your API key is used to generate descriptions and transcriptions, and AI service providers charge for this usage. Usually, the cost per image is a few cents or less than one cent, but if you work with large volumes, the costs add up. Before intensive use, please check the current OpenAI or Google pricing.
+    
+      <h2>What happens to my images and API key? Is anything saved?</h2>
+      <p>Nothing is saved or sent to us. aiRA runs entirely in your browser:</p>
 
       <ul>
-        <li>jūsu API atslēga tiek saglabāta tikai jūsu pārlūkprogrammā (lokāli), lai tā nebūtu jāievada katru reizi no jauna. Mums tā nekad netiek pārsūtīta;</li>
-        <li>jūsu attēli tiek sūtīti tieši no jūsu pārlūkprogrammas uz OpenAI vai Google API – tie nekad nenonāk uz mūsu serveriem;</li>
-        <li>mēs neveicam nekādu žurnalēšanu (logging), neievācam analītiku par jūsu attēliem un nesaglabājam jūsu rezultātu kopijas. Mēs tos neredzam.</li>
+        <li>Your API key is stored only in your browser locally, so that you do not have to enter it again each time. It is never transmitted to us;</li>
+        <li>Your images are sent directly from your browser to the OpenAI or Google API – they never reach our servers;</li>
+        <li>We do not perform any logging, we do not collect analytics about your images, and we do not save copies of your results. We do not see them.</li>
       </ul>
 
-      <p>Īsāk sakot: jūsu datu attiecības ir ar OpenAI vai Google, nevis ar mums. Skatiet viņu attiecīgās privātuma politikas, lai uzzinātu, kā viņi apstrādā datus, kas nosūtīti uz viņu API (piemēram, vai dati tiek izmantoti modeļu apmācībai – tas atšķiras atkarībā no pakalpojumu sniedzēja un konta veida, tāpēc pārbaudiet viņu aktuālos noteikumus).</p>
+      <p>In short: your data relationship is with OpenAI or Google, not with us. Please refer to their respective privacy policies to learn how they process data sent to their APIs, for example whether data is used for model training. This differs depending on the service provider and account type, so please check their current terms.</p>
 
-      <h2>Vai es varu šo rīku izmantot ar jutīgiem vai privātiem attēliem?</h2>
-      <p>Esiet piesardzīgi. Lai gan pati aiRA neko nesaglabā, jūsu attēli tomēr pamet jūsu ierīci un nonāk pie trešās puses AI pakalpojumu sniedzēja. Ja strādājat ar sensitīviem, personīgiem vai ierobežotas pieejamības materiāliem, pārskatiet OpenAI un Google datu izmantošanas un glabāšanas politikas, kā arī ievērojiet savas organizācijas datu apstrādes vadlīnijas.</p>
+      <h2>Can I use this tool with sensitive or private images?</h2>
+      <p>Be careful. Although aiRA itself does not save anything, your images still leave your device and are sent to a third-party AI service provider. If you are working with sensitive, personal, or restricted-access materials, review OpenAI’s and Google’s data usage and retention policies, and follow your organization’s data processing guidelines.</p>
 
-      <h2>Kādus AI modeļus es varu izmantot?</h2>
-      <p>Vairākus OpenAI vai Google modeli, kuriem ir "vision" (attēlu izpratnes) kapacitāte. Precīzs saraksts ir konfigurējams un laika gaitā var tikt atjaunināts – pieejamās opcijas meklējiet iestatījumu panelī.</p>
+      <h2>Which AI models can I use?</h2>
+      <p>Several OpenAI or Google models that have “vision,” or image-understanding, capabilities. The exact list is configurable and may be updated over time – check the settings panel for the available options.</p>
 
-      <h2>Vai es varu pielāgot to, kā tiek rakstīti apraksti?</h2>
-      <p>Jā. Ir iespējams regulēt mākslīgā intelekta domāšanas līmeni un temperatūru jeb radošumu, kas ietekmē aprakstu valodu, kā arī ir iespējams pēc aprakstu ģenerēšanas tos rediģēt un pārtulkot uz citām valodām.</p>
+      <h2>Can I customize how the descriptions are written?</h2>
+      <p>Yes. It is possible to adjust the AI’s reasoning level and temperature, or creativity, which affects the language of the descriptions. You can also edit the descriptions after they are generated and translate them into other languages.  </p>
       
-      <h2>Kādās valodās ir iespējams atšifrēt tekstu?</h2>
-      <p>aiRA atšifrēt spēj tekstus, kuri sastāv no latīņu alfabēta, tai skaitā burtus ar diakritiskām zīmēm, piemēram, “ā”, “ģ”, “ø”.</p>
+      <h2>In which languages can text be transcribed?</h2>
+      <p>aiRA can transcribe texts that use the Latin alphabet, including letters with diacritical marks, such as “ā”, “ģ”, and “ø”.</p>
 
-      <h2>Vai aiRA darbojas mobilajās ierīcēs?</h2>
-      <p>Jā, tā ir adaptīva tīmekļa lietotne (<i>responsive web app</i>). Tiesa, lielāku attēlu apjomu augšupielādei un pārskatīšanai ērtāk būs izmantot lielāku ekrānu.</p>
+      <h2>Does aiRA work on mobile devices?</h2>
+      <p>Yes, it is a <i>responsive web application</i>. However, for uploading and reviewing larger volumes of images, it will be more convenient to use a larger screen.</p>
       
       
       
